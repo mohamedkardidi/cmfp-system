@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <section class="auth-container">
+    <div class="auth-wrapper">
+      <div class="auth-content">
+        <div class="left-section">
+          <div class="content-wrapper">
+            <div class="content-row">
+              <div class="text-column">
+                <div class="text-content">
+                  <h1 class="heading-primary">
+                    Sign In to<br />CMFP System
+                  </h1>
+                  <p class="register-text">
+                    If you don't have an account,<br />you can
+                    <a href="/register.html" class="register-link">Register here!</a>
+                  </p>
+                </div>
+              </div>
+              <div class="image-column">
+                <img
+                  loading="lazy"
+                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/dd8704f9962f5ef06057a1d589729986cf4472b8198bb7426b982f02ba2060dd?placeholderIfAbsent=true&apiKey=3d2cdc80435c4ee7ad35ad90a21e1694"
+                  class="hero-image"
+                  alt="Sign in illustration"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-column">
+          <form class="login-form" method="POST" action="/login" id="loginForm">
+            <div id="errorMessage" style="color: red; margin-bottom: 10px; display: none;"></div>
+            <label for="username" class="visually-hidden">Enter Username</label>
+            <div class="input-wrapper">
+              <input 
+                type="text" 
+                id="username" 
+                name="username" 
+                class="form-input" 
+                placeholder="Enter Username"
+                required
+              />
+              <img
+                loading="lazy"
+                src="https://cdn.builder.io/api/v1/image/assets/TEMP/755bab22a4913bff9991cc063d279a47bc0c858f96e8161b37925f6e1fc03a1c?placeholderIfAbsent=true&apiKey=3d2cdc80435c4ee7ad35ad90a21e1694"
+                class="input-icon"
+                alt=""
+              />
+            </div>
+
+            <label for="password" class="visually-hidden">Enter Password</label>
+            <div class="password-wrapper">
+              <input 
+                type="password" 
+                id="password" 
+                name="password" 
+                class="form-input" 
+                placeholder="Enter Password"
+                required
+              />
+              <img
+                loading="lazy"
+                src="https://cdn.builder.io/api/v1/image/assets/TEMP/58bdacce181e4e72b98cbff0e8ed43606d70f16ced8ca417781a393821921fa8?placeholderIfAbsent=true&apiKey=3d2cdc80435c4ee7ad35ad90a21e1694"
+                class="input-icon"
+                alt=""
+              />
+            </div>
+
+            <a href="#" class="recover-link">Recover Password?</a>
+            <button type="submit" class="submit-button">Sign In</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      const errorDiv = document.getElementById('errorMessage');
+      
+      try {
+        const response = await fetch('/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ username, password })
+        });
+
+        const data = await response.json();
+        
+        if (data.success) {
+          // Redirect on success
+          window.location.replace(data.redirect);
+        } else {
+          // Show error message
+          errorDiv.textContent = data.error || 'Login failed. Please try again.';
+          errorDiv.style.display = 'block';
+        }
+      } catch (error) {
+        console.error('Login error:', error);
+        errorDiv.textContent = 'An error occurred. Please try again.';
+        errorDiv.style.display = 'block';
+      }
+    });
+  </script>
+</body>
+</html>

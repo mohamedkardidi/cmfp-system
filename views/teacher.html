@@ -1,0 +1,90 @@
+<!-- Save this as teacher.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Dashboard</title>
+    <link rel="stylesheet" href="../public/css/teacher.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">TeacherPanel</div>
+        <div class="nav-right">
+            <div class="search-bar">
+                <input type="text" placeholder="Search...">
+            </div>
+            <button id="logoutButton" class="button logout-button">Logout</button>
+        </div>
+    </nav>
+
+    <div class="dashboard-container">
+        <div class="main-content">
+            <div class="dashboard-header">
+                <div class="welcome-section">
+                    <h1>Welcome, Teacher</h1>
+                    <p>Manage your classes and students</p>
+                </div>
+            </div>
+
+            <div class="stats-container">
+                <div class="stat-card">
+                    <h3>24</h3>
+                    <p>Total Students</p>
+                </div>
+                <div class="stat-card">
+                    <h3>6</h3>
+                    <p>Active Classes</p>
+                </div>
+                <div class="stat-card">
+                    <h3>12</h3>
+                    <p>Assignments</p>
+                </div>
+                <div class="stat-card">
+                    <h3>89%</h3>
+                    <p>Attendance Rate</p>
+                </div>
+            </div>
+
+            <div class="peers-grid">
+                <!-- Student Cards will be added here -->
+                <div class="peer-card">
+                    <div class="peer-header">
+                        <div class="avatar">
+                            <img src="/api/placeholder/100/100" alt="Student">
+                        </div>
+                        <div class="peer-info">
+                            <h3>Michael Kopfler</h3>
+                            <p>Student</p>
+                        </div>
+                    </div>
+                    <div class="task-info">
+                        <p>Current Assignment</p>
+                        <div class="duration">
+                            <span>⏱️</span>
+                            <span>Due in 2 days</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('logoutButton').addEventListener('click', () => {
+            fetch('/logout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message === 'Logged out successfully') {
+                    window.location.href = '/login.html';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

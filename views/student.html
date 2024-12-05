@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Welcome, Student</h1>
+    <p>This is your dashboard.</p>
+    <button id="logoutButton" onclick="window.location.href='/logout'">Logout</button>
+
+    <script src="index.js"></script>
+    <script>
+        document.getElementById('logoutButton').addEventListener('click', () => {
+            fetch('/logout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message === 'Logged out successfully') {
+                    window.location.href = '/login.html';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

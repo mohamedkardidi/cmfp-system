@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="/style.css">
+    <script>
+        // Replace the current history entry with admin dashboard
+        if (window.history && window.history.replaceState) {
+            window.history.replaceState(null, null, window.location.href);
+            window.onpopstate = function() {
+                window.history.replaceState(null, null, window.location.href);
+            };
+        }
+
+        // Check authentication on page load
+        fetch('/api/admin/data')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Not authenticated');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Authentication successful:', data);
+            })
+            .catch(error => {
+                console.error('Authentication failed:', error);
+                window.location.replace('/login.html');
+            });
+    </script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <header>
+            <h1>Admin Dashboard</h1>
+            <nav>
+                <a href="/logout" class="logout-button">Logout</a>
+            </nav>
+        </header>
+        <main>
+            <h2>Welcome to the Admin Dashboard</h2>
+            <p>You are logged in as an administrator.</p>
+        </main>
+    </div>
+</body>
+</html>
